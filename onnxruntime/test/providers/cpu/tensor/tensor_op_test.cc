@@ -478,5 +478,23 @@ TEST(TensorOpTest, ShapeTest3D) {
   test.Run(OpTester::ExpectResult::kExpectSuccess, "", {kTensorrtExecutionProvider});
 }
 
+TEST(TensorOpTest, Reshape_Int4_Uint4) {
+  {
+    OpTester test("Shape", 21);
+
+    test.AddInput<Int4x2>("x", {2, 3}, {Int4x2(0, 1), Int4x2(3, 15), Int4x2(2, 8)});
+    test.AddOutput<int64_t>("shape", {2}, {1, 6});
+    test.Run(OpTester::ExpectResult::kExpectSuccess, "", {kTensorrtExecutionProvider});
+  }
+
+  {
+    OpTester test("Shape", 21);
+
+    test.AddInput<UInt4x2>("x", {2, 3}, {UInt4x2(0, 1), UInt4x2(3, 15), UInt4x2(2, 8)});
+    test.AddOutput<int64_t>("shape", {2}, {1, 6});
+    test.Run(OpTester::ExpectResult::kExpectSuccess, "", {kTensorrtExecutionProvider});
+  }
+}
+
 }  // namespace test
 }  // namespace onnxruntime
